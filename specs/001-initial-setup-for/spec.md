@@ -42,9 +42,43 @@ As a data engineer, I want to set up a local development environment that suppor
 ### Functional Requirements
 - **FR-001**: System MUST provide centralized dependency management for all table format plugins including Delta Table, Apache Iceberg, Apache Hudi, and Apache Paimon
 - **FR-002**: System MUST provide a plugin interface for table format integration
-- **FR-003**: System MUST validate version compatibility between table format plugins at registration time
+- **FR-003**: System MUST validate version compatibility between table format plugins at registration time with the following criteria:
+  - Version compatibility check MUST complete within 2 seconds per plugin
+  - System MUST maintain a version compatibility matrix in memory for O(1) lookup
+  - Failed compatibility checks MUST be reported within 100ms
+  - Version validation results MUST be cached for 1 hour
 - **FR-004**: System MUST support isolated plugin dependencies to prevent conflicts
-- **FR-005**: System MUST provide clear error messages for dependency issues
+- **FR-005**: System MUST provide structured error messages for dependency issues following this format:
+  - Error Code: Unique identifier (e.g., DEP001)
+  - Severity: ERROR, WARN, or INFO
+  - Component: Affected plugin or system component
+  - Message: Human-readable description
+  - Context: JSON object containing:
+    - Attempted operation
+    - Dependency details
+    - Version information
+    - Timestamp
+  - Resolution Steps: List of recommended actions
+  Examples:
+  ```json
+  {
+    "code": "DEP001",
+    "severity": "ERROR",
+    "component": "delta-lake-plugin",
+    "message": "Incompatible dependency version",
+    "context": {
+      "operation": "plugin_registration",
+      "dependency": "apache-spark",
+      "required_version": ">=3.4.0",
+      "found_version": "3.3.0",
+      "timestamp": "2025-09-27T10:00:00Z"
+    },
+    "resolution": [
+      "Upgrade apache-spark to version 3.4.0 or higher",
+      "Or downgrade delta-lake-plugin to version compatible with Spark 3.3.0"
+    ]
+  }
+  ```
 - **FR-006**: System MUST allow adding new table formats without core code changes
 - **FR-007**: System MUST run full integration tests to validate each table format plugin
 - **FR-008**: System MUST include version management for each table format plugin
