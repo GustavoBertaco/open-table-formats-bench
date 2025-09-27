@@ -1,50 +1,106 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+Version: None → 1.0.0 (Initial Release)
+Modified Principles:
+- All principles newly created
+Added Sections:
+- Core Principles
+- Technical Standards
+- Development Workflow
+- Governance
+Templates Requiring Updates:
+✅ .specify/templates/plan-template.md
+✅ .specify/templates/spec-template.md
+✅ .specify/templates/tasks-template.md
+✅ README.md
+Follow-up TODOs:
+- None
+-->
+
+# Open Table Formats Bench Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Plugin-First Architecture
+The system MUST be built with extensibility as its foundation. Every component (table formats, data sources, processing engines) MUST be implemented as a plugin. Core application code MUST NOT contain format-specific, source-specific, or engine-specific logic. This ensures the system can evolve without core modifications.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Rationale: Enables seamless integration of new table formats, data sources, and processing engines as they emerge.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Docker-Centric Development
+All development and deployment MUST be Docker-based. The application MUST run with a single Docker command. Environment configuration MUST be containerized to ensure consistency across all deployments.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Rationale: Guarantees reproducible benchmarks and eliminates environment-specific issues.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Configuration-Driven Design
+All benchmark experiments MUST be defined through declarative configuration. The system MUST support a standardized configuration format for defining experiments, plugins, and runtime behavior. Configuration changes MUST NOT require code changes.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Rationale: Enables users to define complex benchmarks without understanding implementation details.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Performance Measurement Standards
+All benchmarks MUST adhere to strict measurement standards. Metrics MUST include throughput, latency, and resource utilization. Results MUST be comparable across different table formats and processing engines. The system MUST account for and document variables that could impact benchmark reliability.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Rationale: Ensures benchmark results are reliable, reproducible, and meaningful for decision-making.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. User Experience Focus
+The system MUST provide both web-based and API interfaces. All interfaces MUST be intuitive and self-documenting. Error messages MUST be clear and actionable. Documentation MUST be comprehensive and maintained alongside code.
+
+Rationale: Makes the benchmarking tool accessible to data engineers of varying experience levels.
+
+## Technical Standards
+
+### Plugin Interface Standards
+- Plugin interfaces MUST be stable and versioned
+- Plugin dependencies MUST be isolated
+- Plugin discovery MUST be automatic
+- Plugin configuration MUST follow a standardized schema
+
+### Development Workflow
+- Feature branches MUST be used for development
+- Pull requests MUST include plugin tests
+- Documentation MUST be updated with code changes
+- Docker images MUST be tested before merge
+
+### Quality Gates
+- All plugins MUST pass interface compliance tests
+- Performance regression tests MUST pass
+- Documentation MUST be complete and accurate
+- Security scans MUST pass
+
+## Development Workflow
+
+### Code Review Process
+- Architecture reviews for plugin interfaces
+- Performance impact assessment
+- Documentation completeness check
+- Security consideration review
+
+### Testing Requirements
+- Unit tests for plugin implementations
+- Integration tests for plugin interactions
+- Performance benchmarks
+- Documentation accuracy tests
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+The Constitution serves as the highest authority for project development and operation. All development work MUST comply with these principles and standards.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### Amendment Process
+1. Propose changes with clear rationale
+2. Impact analysis on existing plugins
+3. Community review period (minimum 1 week)
+4. Implementation plan including migration strategy
+5. Documentation updates
+6. Version bump following semantic versioning
+
+### Compliance
+- All pull requests MUST verify constitution compliance
+- Deviations MUST be documented and approved
+- Regular constitution review (quarterly)
+- Amendments MUST include migration guides
+
+### Version Control
+- MAJOR: Breaking changes to plugin interfaces
+- MINOR: New requirements or capabilities
+- PATCH: Clarifications and non-breaking refinements
+
+**Version**: 1.0.0 | **Ratified**: 2025-09-27 | **Last Amended**: 2025-09-27
