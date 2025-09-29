@@ -1,13 +1,11 @@
 <!--
 SYNC IMPACT REPORT
-Version: None → 1.0.0 (Initial Release)
+Version: 1.0.0 → 1.1.0 (Added Documentation Standards)
 Modified Principles:
-- All principles newly created
+- Added Documentation Standards under Technical Standards
+- Enhanced Development Workflow with documentation requirements
 Added Sections:
-- Core Principles
-- Technical Standards
-- Development Workflow
-- Governance
+- Documentation Standards under Technical Standards
 Templates Requiring Updates:
 ✅ .specify/templates/plan-template.md
 ✅ .specify/templates/spec-template.md
@@ -54,10 +52,19 @@ Rationale: Makes the benchmarking tool accessible to data engineers of varying e
 - Plugin discovery MUST be automatic
 - Plugin configuration MUST follow a standardized schema
 
+### Documentation Standards
+- Every feature MUST have detailed usage documentation in the 'System Documentation' folder
+- All feature documentation MUST be referenced in the README's System Documentation section
+- Documentation MUST include usage examples, configuration options, and error handling
+- Documentation MUST be written in Markdown format
+- Documentation MUST be maintained alongside code changes
+
 ### Development Workflow
 - Feature branches MUST be used for development
 - Pull requests MUST include plugin tests
-- Documentation MUST be updated with code changes
+- Pull requests MUST include feature documentation in 'System Documentation'
+- Pull requests MUST update README.md to reference new documentation
+- Documentation MUST be reviewed with the same rigor as code
 - Docker images MUST be tested before merge
 
 ### Quality Gates
