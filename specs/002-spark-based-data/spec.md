@@ -4,6 +4,15 @@
 
 This feature implements a Python-based Apache Spark application for reading various input file formats and converting them to different open table formats while collecting comprehensive performance metrics. The system will support automated benchmarking across different data formats, sizes, and compression methods.
 
+## Clarifications
+
+### Session 2025-09-29
+- Q: What is the minimum dataset size that should be supported for performance validation? → A: Small (1MB-100MB)
+- Q: What is the maximum number of concurrent format conversions to support? → A: Single conversion at a time
+- Q: How long should metrics be retained locally? → A: 7 days
+- Q: What is the default Spark execution mode for local deployment? → A: local[*] (all available cores)
+- Q: What should happen to partially processed data if a conversion fails? → A: Delete all partial data
+
 ## Objectives
 
 - Create a flexible Spark application for data format conversion
@@ -34,7 +43,9 @@ This feature implements a Python-based Apache Spark application for reading vari
   * Extensible for additional formats
 
 - Handle different data characteristics:
-  * File sizes (Bytes to Gigabytes)
+  * File sizes:
+    - Minimum validation size: 1MB-100MB
+    - Support for larger sizes up to Gigabytes
   * Compression types (GZIP, SNAPPY, LZO, ZSTD)
   * Schema complexity (flat, nested)
   * Data types (primitive, complex)
@@ -47,6 +58,12 @@ This feature implements a Python-based Apache Spark application for reading vari
   * Apache Paimon
   * Delta Lake
 
+- Error Handling:
+  * Automatic cleanup of partial data on conversion failure
+  * Error logging with failure reason
+  * Metrics recording for failed operations
+  * Clean state for retry operations
+
 - Support table features:
   * Time travel
   * Schema evolution
@@ -55,6 +72,12 @@ This feature implements a Python-based Apache Spark application for reading vari
   * Metadata management
 
 ### Performance Metrics Collection
+- Metrics Retention:
+  * Retain metrics data for 7 days
+  * Automatic cleanup of older metrics
+  * Daily aggregation for historical trends
+  * Export capability before cleanup
+
 - Time-based metrics:
   * Total processing time
   * Read time per format
@@ -83,6 +106,19 @@ This feature implements a Python-based Apache Spark application for reading vari
   * Null value distribution
 
 ## Technical Requirements
+
+### Concurrency Model
+- System will process one format conversion at a time
+- Subsequent conversion requests will be queued
+- Clear status indication for queued conversions
+- Graceful handling of conversion queue
+
+### Spark Configuration
+
+- Default execution mode: local[*] (utilizing all available cores)
+- Configurable through YAML for custom requirements
+- Memory settings adjustable per environment
+- Dynamic resource allocation disabled for local mode
 
 ### Core Components
 
