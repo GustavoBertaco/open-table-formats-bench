@@ -110,8 +110,13 @@ This feature implements a Python-based Apache Spark application for reading vari
 ### Concurrency Model
 - System will process one format conversion at a time
 - Subsequent conversion requests will be queued
-- Clear status indication for queued conversions
-- Graceful handling of conversion queue
+- Maximum queue size: 100 conversions
+- Queue timeout: 1 hour per request
+- Status updates every 5 seconds
+- Queue metrics:
+  * Average wait time <5 minutes
+  * Queue length monitoring and alerts at 80% capacity
+  * Failed conversion retry limit: 3 attempts
 
 ### Spark Configuration
 
@@ -330,9 +335,20 @@ Total: 10 weeks
    - [ ] Handles various data sizes and compressions
 
 2. Performance
-   - [ ] Meets performance benchmarks for each format
-   - [ ] Resource utilization within specified limits
-   - [ ] Metrics collection overhead < 5%
+   - [ ] Processing Speed Requirements:
+     * Small files (<100MB): Complete in <30 seconds
+     * Medium files (100MB-1GB): Complete in <3 minutes
+     * Large files (1GB+): Complete in <10 minutes per GB
+   - [ ] Resource Utilization Limits:
+     * CPU: Sustained usage <80% of allocated
+     * Memory: Peak usage <90% of allocated
+     * Disk I/O: <70% of available bandwidth
+     * Network I/O: <50% of available bandwidth
+   - [ ] Metrics Collection Impact:
+     * CPU overhead <5% of total usage
+     * Memory overhead <100MB
+     * Storage usage <1GB per day
+     * Collection latency <100ms
 
 3. Deployment
    - [ ] Docker deployment works out-of-box
